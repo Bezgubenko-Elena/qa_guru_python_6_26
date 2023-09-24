@@ -1,0 +1,9 @@
+pytest
+requests
+jsonschema
+allure-pytest==2.13.2
+curlify==2.2.1
+pytest==7.4.1
+selene>=v2.0.0rc4
+selenium
+python-dotenv~=1.0.0
