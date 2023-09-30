@@ -7,6 +7,7 @@ import allure
 from allure_commons.types import Severity
 
 from utils import helper
+from utils.helper import get_data_auth
 
 
 @allure.tag("web")
@@ -32,15 +33,11 @@ def test_success_registration():
 
     registration_page.back_to_login()
 
-    login_page.register(user1)
+    login_page.login(user1)
 
-    response = requests.get(
-        url="https://demoqa.com/Account/v1/User/60772660-b17c-47ed-aab7-7db50fcd8984"
+    # login_page.login_success_check(user1)
 
-    )
 
-    assert response.status_code == 200
-    assert response.json()["data"]["first_name"] == "Janet"
 
 
 

@@ -1,12 +1,13 @@
 import json
 import allure
+import requests
 from requests import sessions
 from curlify import to_curl
 from allure_commons.types import AttachmentType
 from tests.conftest import base_url
 
 
-def pet_api(method, url, **kwargs):
+def book_api(method, url, **kwargs):
     new_url = base_url + url
     method = method.upper()
     with allure.step(f"{method} {url}"):
@@ -21,3 +22,11 @@ def pet_api(method, url, **kwargs):
                               extension='txt')
 
     return response
+
+
+def get_data_auth():
+    pass
+
+
+def save_data_auth():
+    pass
