@@ -21,19 +21,6 @@ def pytest_addoption(parser):
     )
 
 
-@pytest.fixture()
-def registration_user():
-    payload = {
-        "userName": "morpheus",
-        "password": "Qq!12345"
-    }
-
-    response = requests.post(
-        url="https://demoqa.com/Account/v1/User",
-        data=payload
-    )
-    print(response.text)
-
 
 @pytest.fixture(scope='session', autouse=True)
 def load_env():

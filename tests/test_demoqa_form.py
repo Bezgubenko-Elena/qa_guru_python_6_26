@@ -11,7 +11,7 @@ from utils.helper import get_data_auth
 
 
 @allure.tag("web")
-@allure.severity(Severity.CRITICAL)
+@allure.severity(Severity.BLOCKER)
 @allure.label("owner", "ebezgubenko")
 @allure.feature("Авторизация пользователя")
 @allure.story("web")
@@ -37,41 +37,278 @@ def test_success_login():
 
     login_page.check_login_success(user1)
 
+
+@allure.tag("web")
+@allure.severity(Severity.CRITICAL)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Авторизация пользователя")
+@allure.story("web")
+@allure.link("https://demoqa.com/login", name="Page for login")
 def test_success_log_out():
-    pass
+    login_page = LoginPage()
+    profile_page = ProfilePage()
 
-def test_unsuccess_login_invalid_user():
-    pass
-
-
-def test_unsuccess_login_invalid_password():
-    pass
-
-
-def test_registration_user():
     user1 = User(
-        user_name='Ivanz',
+        user_name='ivan',
         password='Qq!12345'
     )
 
-    payload = {
-        "userName": user1.user_name,
-        "password": user1.password
-    }
+    login_page.open()
 
-    response = requests.post(
-        url="https://demoqa.com/Account/v1/User",
-        data=payload,
-        allow_redirects=False
+    login_page.fill_user_name(user1)
+
+    login_page.fill_password(user1)
+
+    login_page.submit_login()
+
+    profile_page.go_to_login()
+
+    login_page.submit_log_out()
+
+    login_page.check_not_login()
+
+
+@allure.tag("web")
+@allure.severity(Severity.NORMAL)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Авторизация пользователя")
+@allure.story("web")
+@allure.link("https://demoqa.com/login", name="Page for login")
+def test_unsuccess_login_invalid_user():
+    login_page = LoginPage()
+
+    user2 = User(
+        user_name='ruslan',
+        password='Ww!12345'
     )
-    print(response.content)
+
+    login_page.open()
+
+    login_page.fill_user_name(user2)
+
+    login_page.fill_password(user2)
+
+    login_page.submit_login()
+
+    login_page.check_login_unsuccess()
 
 
+@allure.tag("web")
+@allure.severity(Severity.NORMAL)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Авторизация пользователя")
+@allure.story("web")
+@allure.link("https://demoqa.com/login", name="Page for login")
+def test_unsuccess_login_invalid_password():
+    login_page = LoginPage()
 
-def test_delete_user():
-    userID = '50d3ac45-ef1c-4d78-a5ff-bfe7dff6f43a'
-    response = requests.delete(
-        url=f"https://demoqa.com/Account/v1/User/{userID}"
+    user3 = User(
+        user_name='ivan',
+        password='Ww!12345'
     )
-    print(response.status_code)
-    assert response.status_code == 204
+
+    login_page.open()
+
+    login_page.fill_user_name(user3)
+
+    login_page.fill_password(user3)
+
+    login_page.submit_login()
+
+    login_page.check_login_unsuccess()
+
+
+@allure.tag("web")
+@allure.severity(Severity.BLOCKER)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Взаимодействие с корзиной пользователя")
+@allure.story("web")
+@allure.link("https://demoqa.com/profile", name="Profile")
+def test_add_book():
+    login_page = LoginPage()
+    profile_page = ProfilePage()
+    book_store_page = BookStorePage()
+    book_page = BookPage()
+
+    user1 = User(
+        user_name='ivan',
+        password='Qq!12345'
+    )
+
+    book1 = Book(
+        title='Git Pocket Guide',
+        ISBN='9781449325862'
+    )
+
+    login_page.open()
+
+    login_page.fill_user_name(user1)
+
+    login_page.fill_password(user1)
+
+    login_page.submit_login()
+
+    profile_page.go_to_book_store()
+
+    book_store_page.search_book(book1)
+
+    book_store_page.go_to_book_page(book1)
+
+    book_page.add_book()
+
+    profile_page.go_to_login()
+
+    login_page.go_to_profile()
+
+    profile_page.search_book(book1)
+
+    profile_page.check_book_in_profile(book1)
+
+
+@allure.tag("web")
+@allure.severity(Severity.BLOCKER)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Взаимодействие с корзиной пользователя")
+@allure.story("web")
+@allure.link("https://demoqa.com/profile", name="Profile")
+def test_delete_book():
+    login_page = LoginPage()
+    profile_page = ProfilePage()
+    book_store_page = BookStorePage()
+    book_page = BookPage()
+
+    user1 = User(
+        user_name='ivan',
+        password='Qq!12345'
+    )
+
+    book1 = Book(
+        title='Git Pocket Guide',
+        ISBN='9781449325862'
+    )
+
+    login_page.open()
+
+    login_page.fill_user_name(user1)
+
+    login_page.fill_password(user1)
+
+    login_page.submit_login()
+
+    profile_page.go_to_book_store()
+
+    book_store_page.search_book(book1)
+
+    book_store_page.go_to_book_page(book1)
+
+    book_page.add_book()
+
+    profile_page.go_to_login()
+
+    login_page.go_to_profile()
+
+    profile_page.search_book(book1)
+
+    profile_page.delete_book(book1)
+
+    profile_page.check_not_books_in_profile()
+
+
+@allure.tag("web")
+@allure.severity(Severity.NORMAL)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Взаимодействие с корзиной пользователя")
+@allure.story("web")
+@allure.link("https://demoqa.com/profile", name="Profile")
+def test_delete_all_books():
+    login_page = LoginPage()
+    profile_page = ProfilePage()
+    book_store_page = BookStorePage()
+    book_page = BookPage()
+
+    user1 = User(
+        user_name='ivan',
+        password='Qq!12345'
+    )
+
+    book1 = Book(
+        title='Git Pocket Guide',
+        ISBN='9781449325862'
+    )
+
+    login_page.open()
+
+    login_page.fill_user_name(user1)
+
+    login_page.fill_password(user1)
+
+    login_page.submit_login()
+
+    profile_page.go_to_book_store()
+
+    book_store_page.search_book(book1)
+
+    book_store_page.go_to_book_page(book1)
+
+    book_page.add_book()
+
+    profile_page.go_to_login()
+
+    login_page.go_to_profile()
+
+    profile_page.delete_all_books()
+
+    profile_page.check_not_books_in_profile()
+
+
+@allure.tag("web")
+@allure.severity(Severity.BLOCKER)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Взаимодействие с корзиной пользователя")
+@allure.story("web")
+@allure.link("https://demoqa.com/profile", name="Profile")
+def test_save_added_books_after_relogin():
+    login_page = LoginPage()
+    profile_page = ProfilePage()
+    book_store_page = BookStorePage()
+    book_page = BookPage()
+
+    user1 = User(
+        user_name='ivan',
+        password='Qq!12345'
+    )
+
+    book1 = Book(
+        title='Git Pocket Guide',
+        ISBN='9781449325862'
+    )
+
+    login_page.open()
+
+    login_page.fill_user_name(user1)
+
+    login_page.fill_password(user1)
+
+    login_page.submit_login()
+
+    profile_page.go_to_book_store()
+
+    book_store_page.search_book(book1)
+
+    book_store_page.go_to_book_page(book1)
+
+    book_page.add_book()
+
+    profile_page.go_to_login()
+
+    login_page.submit_log_out()
+
+    login_page.fill_user_name(user1)
+
+    login_page.fill_password(user1)
+
+    login_page.submit_login()
+
+    profile_page.search_book(book1)
+
+    profile_page.check_book_in_profile(book1)
