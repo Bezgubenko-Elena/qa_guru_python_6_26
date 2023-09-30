@@ -1,5 +1,6 @@
 import os
 import pytest
+import requests
 from selenium.webdriver.chrome.options import Options
 from selene import browser
 from selenium import webdriver
@@ -10,7 +11,6 @@ path_schema = os.path.abspath(os.path.join(os.path.dirname(__file__), 'resources
 
 base_url = "https://demoqa.com"
 
-
 DEFAULT_BROWSER_VERSION = "100.0"
 
 
@@ -19,6 +19,20 @@ def pytest_addoption(parser):
         '--browser_version',
         default='100.0'
     )
+
+
+@pytest.fixture()
+def registration_user():
+    payload = {
+        "userName": "morpheus",
+        "password": "Qq!12345"
+    }
+
+    response = requests.post(
+        url="https://demoqa.com/Account/v1/User",
+        data=payload
+    )
+    print(response.text)
 
 
 @pytest.fixture(scope='session', autouse=True)

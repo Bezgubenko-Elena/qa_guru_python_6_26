@@ -18,12 +18,12 @@ class LoginPage:
         browser.element('footer').execute_script('element.remove()')
 
     @allure.step("Вводим имя пользователя")
-    def fill_user_name(self, value):
-        browser.element('[id="userName"]').type(value)
+    def fill_user_name(self, user):
+        browser.element('[id="userName"]').type(user.user_name)
 
     @allure.step("Вводим пароль")
-    def fill_password(self, value):
-        browser.element('[id="password"]').type(value)
+    def fill_password(self, user):
+        browser.element('[id="password"]').type(user.password)
 
     @allure.step("Отправляем введенные данные для авторизации")
     def submit_login(self):
@@ -34,8 +34,9 @@ class LoginPage:
         browser.element('[id="userForm"]').should(have.exact_texts('Login in Book Store'))
 
     @allure.step("Проверяем нахождение на странице авторизации авторизованным пользователем")
-    def check_login_success(self):
-        browser.element('[id="loading-label"]').should(have.exact_texts('You are already logged in.'))
+    def check_login_success(self, user):
+        browser.element('[id="loading-label"]').should(have.text('You are already logged in.'))
+        browser.element('[id="userName-value"]').should(have.text(user.user_name))
 
     @allure.step("Разлогиниваемся")
     def submit_log_out(self):
@@ -73,6 +74,10 @@ class ProfilePage:
     def delete_all_books(self):
         browser.element('[class="buttonWrap" class="text-right button" id="submit"]').click()
 
+    @allure.step("Переходим на страницу логина")
+    def go_to_login(self):
+        # browser.all('.accordion').element_by(have.exact_text('Book Store Application')).click()
+        browser.all('[class="element-group"]').element_by(have.text('Login')).click()
 
 class BookStorePage:
     @allure.step("Открываем страницу Book Store")
