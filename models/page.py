@@ -46,10 +46,10 @@ class LoginPage:
     @allure.step("Разлогиниваемся")
     def submit_log_out(self):
         browser.element('[id="submit"]').click()
+
     @allure.step("Переходим на страницу профиля")
     def go_to_profile(self):
         browser.element('[href*="profile"]').click()
-
 
 
 class ProfilePage:
@@ -114,7 +114,8 @@ class BookStorePage:
 
     @allure.step("Переходим на страницу книги")
     def go_to_book_page(self, book):
-        browser.all('[class="rt-tr-group"]').element_by(have.text(book.title)).element('[id="see-book-Git Pocket Guide"]').click()
+        browser.all('[class="rt-tr-group"]').element_by(have.text(book.title)).element(
+            '[id="see-book-Git Pocket Guide"]').click()
 
 
 class BookPage:
@@ -126,4 +127,3 @@ class BookPage:
     def add_book(self):
         browser.element('[class="text-right fullButton"]').click()
         # browser.config.driver.switch_to.alert.accept()
-

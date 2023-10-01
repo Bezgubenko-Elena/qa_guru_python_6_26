@@ -11,6 +11,8 @@ path_schema = os.path.abspath(os.path.join(os.path.dirname(__file__), 'resources
 
 base_url = "https://demoqa.com"
 
+base_url_book_store = "https://demoqa.com/BookStore/v1/"
+
 DEFAULT_BROWSER_VERSION = "100.0"
 
 

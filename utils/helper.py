@@ -4,11 +4,11 @@ import requests
 from requests import sessions
 from curlify import to_curl
 from allure_commons.types import AttachmentType
-from tests.conftest import base_url
+from tests.conftest import base_url_book_store
 
 
 def book_api(method, url, **kwargs):
-    new_url = base_url + url
+    new_url = base_url_book_store + url
     method = method.upper()
     with allure.step(f"{method} {url}"):
         with sessions.Session() as session:

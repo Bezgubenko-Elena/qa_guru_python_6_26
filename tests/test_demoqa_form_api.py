@@ -1,31 +1,42 @@
 from jsonschema.validators import validate
 import json
 import os
+from data.users import Book
+from tests.conftest import path_schema, base_url, base_url_book_store
 from utils import helper
 
-path_schema = os.path.abspath(os.path.join(os.path.dirname(__file__), 'resources'))
-base_url = "https://reqres.in"
 
 
-def test_get_single_user():
-    response = helper.reqres_api('get', '/api/users/2')
 
-    assert response.status_code == 200
-
-
-def test_single_user_schema():
-    with open(os.path.join(path_schema, "schema_single_user.json")) as file:
+def test_get_list_of_books():
+    with open(os.path.join(path_schema, "schema_get_list_books.json")) as file:
         schema = json.loads(file.read())
-        response = helper.reqres_api('get', '/api/users/2')
+        response = helper.book_api('get', 'Books')
+        assert response.status_code == 200
+        validate(instance=response.json(), schema=schema)
 
+def test_get_single_book():
+    book1 = Book(
+        title='Git Pocket Guide',
+        ISBN='9781449325862'
+    )
+
+    with open(os.path.join(path_schema, "schema_get_single_book.json")) as file:
+        schema = json.loads(file.read())
+        response = helper.book_api('get', 'Book', params={"ISBN": book1.ISBN})
+        assert response.status_code == 200
         validate(instance=response.json(), schema=schema)
 
 
-def test_get_single_user_not_found():
-    response = helper.reqres_api('get', '/api/users/23')
+def test_get_single_book_not_found():
+    book3 = Book(
+        title='Book is not in Book Store',
+        ISBN='0000000000000'
+    )
 
-    assert response.status_code == 404
-    assert not len(response.json())
+    response = helper.book_api('get', 'Book', params={"ISBN": book3.ISBN})
+
+    assert response.status_code == 400
 
 
 def test_create_user():
