@@ -13,6 +13,8 @@ base_url = "https://demoqa.com"
 
 base_url_book_store = "https://demoqa.com/BookStore/v1/"
 
+base_url_account_api = "https://demoqa.com/Account/v1/"
+
 DEFAULT_BROWSER_VERSION = "100.0"
 
 
