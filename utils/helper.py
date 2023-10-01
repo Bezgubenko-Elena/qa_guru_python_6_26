@@ -42,26 +42,22 @@ def account_api(method, url, **kwargs):
 
     return response
 
+
 def get_data_auth_token():
-        # user1 = User(
-        #     user_name='ivan',
-        #     password='Qq!12345'
-        # )
+    # user1 = User(
+    #     user_name='ivan',
+    #     password='Qq!12345'
+    # )
 
-        payload = {
-            "userName": "ivan",
-            "password": "Qq!12345"
-        }
+    payload = {
+        "userName": "ivan",
+        "password": "Qq!12345"
+    }
 
-        response = account_api(method='post', url='Login', data=payload)
-        body_token = response.json().get("token")
-        token = f"Bearer {body_token}"
-        # userId = response.json().get("userId")
-        # assert response.status_code == 200
-        # print(token, userId)
-        # for text in response.json().items():
-        #     print(text)
-        return token
+    response = requests.post(url=f'{base_url_account_api}/Login', data=payload)
+    body_token = response.json().get("token")
+    token = f"Bearer {body_token}"
+    return token
 
 
 def get_data_userId():
@@ -75,14 +71,33 @@ def get_data_userId():
         "password": user1.password
     }
 
-    response = account_api(method='post', url='Login', data=payload)
-    # token = response.json().get("token")
+    response = requests.post(url=f'{base_url_account_api}Login', data=payload)
     userId = response.json().get("userId")
-    # assert response.status_code == 200
-    # print(token, userId)
-    # for text in response.json().items():
-    #     print(text)
     return userId
 
-def save_data_auth():
-    pass
+
+def add_some_book_api(quantity):
+    isbnArray = ["9781449325862", "9781449331818", "9781449337711", "9781449365035", "9781491904244", "9781491950296",
+                 "9781593275846", "9781593277574"]
+    new_collectionOfIsbns = []
+    for i in range(quantity):
+        d = dict.fromkeys(['isbn'], isbnArray[i])
+        new_collectionOfIsbns.append(d)
+
+    payload = json.dumps({
+        "userId": get_data_userId(),
+        "collectionOfIsbns": new_collectionOfIsbns
+    }
+    )
+    headers = {'Content-Type': 'application/json',
+               'Authorization': get_data_auth_token()
+               }
+    requests.post(url=f'{base_url_book_store}Books', data=payload, headers=headers)
+
+
+def delete_all_books_api():
+    url_with_params = f"{base_url_book_store}Books?UserId={get_data_userId()}"
+    headers = {'Content-Type': 'application/json',
+               'Authorization': get_data_auth_token()
+               }
+    requests.delete(url=url_with_params, headers=headers)
