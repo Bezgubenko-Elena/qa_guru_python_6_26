@@ -7,7 +7,7 @@ import allure
 from selenium.webdriver.support import expected_conditions
 from webdriver_manager.core import driver
 
-from tests.conftest import base_url
+from utils.helper import base_url
 
 
 class LoginPage:

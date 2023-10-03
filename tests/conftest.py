@@ -1,19 +1,11 @@
 import os
 import pytest
-import requests
 from selenium.webdriver.chrome.options import Options
 from selene import browser
 from selenium import webdriver
 from dotenv import load_dotenv
 from utils import attach
-
-path_schema = os.path.abspath(os.path.join(os.path.dirname(__file__), 'resources'))
-
-base_url = "https://demoqa.com"
-
-base_url_book_store = "https://demoqa.com/BookStore/v1/"
-
-base_url_account_api = "https://demoqa.com/Account/v1/"
+from utils.helper import create_user, delete_user
 
 DEFAULT_BROWSER_VERSION = "100.0"
 
@@ -68,3 +60,10 @@ def setup_browser(request):
     attach.add_video(browser)
 
     browser.quit()
+
+
+@pytest.fixture()
+def create_and_delete_user():
+    create_user()
+    yield
+    delete_user()

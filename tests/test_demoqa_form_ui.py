@@ -1,13 +1,12 @@
 import requests
 from selene.support.shared import browser
-
 from data.users import User, Book
 from models.page import LoginPage, ProfilePage, BookStorePage, BookPage
 import allure
 from allure_commons.types import Severity
 
 from utils import helper
-from utils.helper import get_data_auth
+from utils.helper import login_in_profile_api, add_some_book_api
 
 
 @allure.tag("web")
@@ -16,7 +15,7 @@ from utils.helper import get_data_auth
 @allure.feature("Авторизация пользователя")
 @allure.story("web")
 @allure.link("https://demoqa.com/login", name="Page for login")
-def test_success_login():
+def test_success_login(create_and_delete_user):
     login_page = LoginPage()
     profile_page = ProfilePage()
 
@@ -124,7 +123,7 @@ def test_unsuccess_login_invalid_password():
 @allure.feature("Взаимодействие с корзиной пользователя")
 @allure.story("web")
 @allure.link("https://demoqa.com/profile", name="Profile")
-def test_add_book():
+def test_add_book(delete_all_books_after_test):
     login_page = LoginPage()
     profile_page = ProfilePage()
     book_store_page = BookStorePage()
@@ -187,6 +186,8 @@ def test_delete_book():
         ISBN='9781449325862'
     )
 
+    add_some_book_api(1)
+
     login_page.open()
 
     login_page.fill_user_name(user1)
@@ -236,6 +237,8 @@ def test_delete_all_books():
         ISBN='9781449325862'
     )
 
+    add_some_book_api(4)
+
     login_page.open()
 
     login_page.fill_user_name(user1)
@@ -243,18 +246,6 @@ def test_delete_all_books():
     login_page.fill_password(user1)
 
     login_page.submit_login()
-
-    profile_page.go_to_book_store()
-
-    book_store_page.search_book(book1)
-
-    book_store_page.go_to_book_page(book1)
-
-    book_page.add_book()
-
-    profile_page.go_to_login()
-
-    login_page.go_to_profile()
 
     profile_page.delete_all_books()
 
