@@ -5,7 +5,7 @@ import os
 from requests.auth import HTTPBasicAuth
 
 from data.users import Book, User
-from tests.conftest import path_schema, base_url, base_url_book_store
+from utils.helper import path_schema, base_url, base_url_book_store
 from utils import helper
 from utils.helper import get_data_auth_token, get_data_userId
 
