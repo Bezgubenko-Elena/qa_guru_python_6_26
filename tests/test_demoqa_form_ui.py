@@ -43,7 +43,7 @@ def test_success_login(create_and_delete_user):
 @allure.feature("Авторизация пользователя")
 @allure.story("web")
 @allure.link("https://demoqa.com/login", name="Page for login")
-def test_success_log_out():
+def test_success_log_out(create_and_delete_user):
     login_page = LoginPage()
     profile_page = ProfilePage()
 
@@ -73,7 +73,7 @@ def test_success_log_out():
 @allure.feature("Авторизация пользователя")
 @allure.story("web")
 @allure.link("https://demoqa.com/login", name="Page for login")
-def test_unsuccess_login_invalid_user():
+def test_unsuccess_login_invalid_user(create_and_delete_user):
     login_page = LoginPage()
 
     user2 = User(
@@ -98,7 +98,7 @@ def test_unsuccess_login_invalid_user():
 @allure.feature("Авторизация пользователя")
 @allure.story("web")
 @allure.link("https://demoqa.com/login", name="Page for login")
-def test_unsuccess_login_invalid_password():
+def test_unsuccess_login_invalid_password(create_and_delete_user):
     login_page = LoginPage()
 
     user3 = User(
@@ -123,7 +123,7 @@ def test_unsuccess_login_invalid_password():
 @allure.feature("Взаимодействие с корзиной пользователя")
 @allure.story("web")
 @allure.link("https://demoqa.com/profile", name="Profile")
-def test_add_book(delete_all_books_after_test):
+def test_add_book(create_and_delete_user):
     login_page = LoginPage()
     profile_page = ProfilePage()
     book_store_page = BookStorePage()
@@ -170,7 +170,7 @@ def test_add_book(delete_all_books_after_test):
 @allure.feature("Взаимодействие с корзиной пользователя")
 @allure.story("web")
 @allure.link("https://demoqa.com/profile", name="Profile")
-def test_delete_book():
+def test_delete_book(create_and_delete_user):
     login_page = LoginPage()
     profile_page = ProfilePage()
     book_store_page = BookStorePage()
@@ -221,7 +221,7 @@ def test_delete_book():
 @allure.feature("Взаимодействие с корзиной пользователя")
 @allure.story("web")
 @allure.link("https://demoqa.com/profile", name="Profile")
-def test_delete_all_books():
+def test_delete_all_books(create_and_delete_user):
     login_page = LoginPage()
     profile_page = ProfilePage()
     book_store_page = BookStorePage()
@@ -258,7 +258,7 @@ def test_delete_all_books():
 @allure.feature("Взаимодействие с корзиной пользователя")
 @allure.story("web")
 @allure.link("https://demoqa.com/profile", name="Profile")
-def test_save_added_books_after_relogin():
+def test_save_added_books_after_relogin(create_and_delete_user):
     login_page = LoginPage()
     profile_page = ProfilePage()
     book_store_page = BookStorePage()
