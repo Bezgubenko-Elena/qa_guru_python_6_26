@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 from utils import attach
 from utils.helper import create_user, delete_user
 
+path_schema = os.path.abspath(os.path.join(os.path.dirname(__file__), 'resources'))
+
 DEFAULT_BROWSER_VERSION = "100.0"
 
 
@@ -15,7 +17,6 @@ def pytest_addoption(parser):
         '--browser_version',
         default='100.0'
     )
-
 
 
 @pytest.fixture(scope='session', autouse=True)

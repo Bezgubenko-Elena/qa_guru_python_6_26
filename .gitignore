@@ -6,3 +6,5 @@ utils/__pycache__/
 data/__pycache__/
 models/__pycache__/
 tests/allure-results
+utils/allure-results
+.env

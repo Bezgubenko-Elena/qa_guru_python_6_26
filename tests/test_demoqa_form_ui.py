@@ -1,12 +1,11 @@
-import requests
-from selene.support.shared import browser
-from data.users import User, Book
+from selene import browser
+
 from models.page import LoginPage, ProfilePage, BookStorePage, BookPage
 import allure
 from allure_commons.types import Severity
 
-from utils import helper
-from utils.helper import login_in_profile_api, add_some_book_api
+from utils.class_instances import registered_user, not_registered_user, registered_user_with_invalid_password, book_for_add
+from utils.helper import add_some_book_api, login_with_token, login_api_new
 
 
 @allure.tag("web")
@@ -19,22 +18,17 @@ def test_success_login(create_and_delete_user):
     login_page = LoginPage()
     profile_page = ProfilePage()
 
-    user1 = User(
-        user_name='ivan',
-        password='Qq!12345'
-    )
-
     login_page.open()
 
-    login_page.fill_user_name(user1)
+    login_page.fill_user_name(registered_user)
 
-    login_page.fill_password(user1)
+    login_page.fill_password(registered_user)
 
     login_page.submit_login()
 
     profile_page.go_to_login()
 
-    login_page.check_login_success(user1)
+    login_page.check_login_success(registered_user)
 
 
 @allure.tag("web")
@@ -47,16 +41,11 @@ def test_success_log_out(create_and_delete_user):
     login_page = LoginPage()
     profile_page = ProfilePage()
 
-    user1 = User(
-        user_name='ivan',
-        password='Qq!12345'
-    )
-
     login_page.open()
 
-    login_page.fill_user_name(user1)
+    login_page.fill_user_name(registered_user)
 
-    login_page.fill_password(user1)
+    login_page.fill_password(registered_user)
 
     login_page.submit_login()
 
@@ -73,19 +62,14 @@ def test_success_log_out(create_and_delete_user):
 @allure.feature("Авторизация пользователя")
 @allure.story("web")
 @allure.link("https://demoqa.com/login", name="Page for login")
-def test_unsuccess_login_invalid_user(create_and_delete_user):
+def test_unsuccess_login_not_registered_user():
     login_page = LoginPage()
-
-    user2 = User(
-        user_name='ruslan',
-        password='Ww!12345'
-    )
 
     login_page.open()
 
-    login_page.fill_user_name(user2)
+    login_page.fill_user_name(not_registered_user)
 
-    login_page.fill_password(user2)
+    login_page.fill_password(not_registered_user)
 
     login_page.submit_login()
 
@@ -101,16 +85,11 @@ def test_unsuccess_login_invalid_user(create_and_delete_user):
 def test_unsuccess_login_invalid_password(create_and_delete_user):
     login_page = LoginPage()
 
-    user3 = User(
-        user_name='ivan',
-        password='Ww!12345'
-    )
-
     login_page.open()
 
-    login_page.fill_user_name(user3)
+    login_page.fill_user_name(registered_user_with_invalid_password)
 
-    login_page.fill_password(user3)
+    login_page.fill_password(registered_user_with_invalid_password)
 
     login_page.submit_login()
 
@@ -129,29 +108,23 @@ def test_add_book(create_and_delete_user):
     book_store_page = BookStorePage()
     book_page = BookPage()
 
-    user1 = User(
-        user_name='ivan',
-        password='Qq!12345'
-    )
+    login_page.open()
 
-    book1 = Book(
-        title='Git Pocket Guide',
-        ISBN='9781449325862'
-    )
+    browser.driver.add_cookie({"name": "token", "value": login_api_new().get("generate_token")})
+
+    # login_page.fill_user_name(registered_user)
+    #
+    # login_page.fill_password(registered_user)
+    #
+    # login_page.submit_login()
 
     login_page.open()
 
-    login_page.fill_user_name(user1)
-
-    login_page.fill_password(user1)
-
-    login_page.submit_login()
-
     profile_page.go_to_book_store()
 
-    book_store_page.search_book(book1)
+    book_store_page.search_book(book_for_add)
 
-    book_store_page.go_to_book_page(book1)
+    book_store_page.go_to_book_page(book_for_add)
 
     book_page.add_book()
 
@@ -159,9 +132,9 @@ def test_add_book(create_and_delete_user):
 
     login_page.go_to_profile()
 
-    profile_page.search_book(book1)
+    profile_page.search_book(book_for_add)
 
-    profile_page.check_book_in_profile(book1)
+    profile_page.check_book_in_profile(book_for_add)
 
 
 @allure.tag("web")
@@ -176,31 +149,21 @@ def test_delete_book(create_and_delete_user):
     book_store_page = BookStorePage()
     book_page = BookPage()
 
-    user1 = User(
-        user_name='ivan',
-        password='Qq!12345'
-    )
-
-    book1 = Book(
-        title='Git Pocket Guide',
-        ISBN='9781449325862'
-    )
-
     add_some_book_api(1)
 
     login_page.open()
 
-    login_page.fill_user_name(user1)
+    login_page.fill_user_name(registered_user)
 
-    login_page.fill_password(user1)
+    login_page.fill_password(registered_user)
 
     login_page.submit_login()
 
     profile_page.go_to_book_store()
 
-    book_store_page.search_book(book1)
+    book_store_page.search_book(book_for_add)
 
-    book_store_page.go_to_book_page(book1)
+    book_store_page.go_to_book_page(book_for_add)
 
     book_page.add_book()
 
@@ -208,9 +171,9 @@ def test_delete_book(create_and_delete_user):
 
     login_page.go_to_profile()
 
-    profile_page.search_book(book1)
+    profile_page.search_book(book_for_add)
 
-    profile_page.delete_book(book1)
+    profile_page.delete_book(book_for_add)
 
     profile_page.check_not_books_in_profile()
 
@@ -224,26 +187,14 @@ def test_delete_book(create_and_delete_user):
 def test_delete_all_books(create_and_delete_user):
     login_page = LoginPage()
     profile_page = ProfilePage()
-    book_store_page = BookStorePage()
-    book_page = BookPage()
-
-    user1 = User(
-        user_name='ivan',
-        password='Qq!12345'
-    )
-
-    book1 = Book(
-        title='Git Pocket Guide',
-        ISBN='9781449325862'
-    )
 
     add_some_book_api(4)
 
     login_page.open()
 
-    login_page.fill_user_name(user1)
+    login_page.fill_user_name(registered_user)
 
-    login_page.fill_password(user1)
+    login_page.fill_password(registered_user)
 
     login_page.submit_login()
 
@@ -264,29 +215,19 @@ def test_save_added_books_after_relogin(create_and_delete_user):
     book_store_page = BookStorePage()
     book_page = BookPage()
 
-    user1 = User(
-        user_name='ivan',
-        password='Qq!12345'
-    )
-
-    book1 = Book(
-        title='Git Pocket Guide',
-        ISBN='9781449325862'
-    )
-
     login_page.open()
 
-    login_page.fill_user_name(user1)
+    login_page.fill_user_name(registered_user)
 
-    login_page.fill_password(user1)
+    login_page.fill_password(registered_user)
 
     login_page.submit_login()
 
     profile_page.go_to_book_store()
 
-    book_store_page.search_book(book1)
+    book_store_page.search_book(book_for_add)
 
-    book_store_page.go_to_book_page(book1)
+    book_store_page.go_to_book_page(book_for_add)
 
     book_page.add_book()
 
@@ -294,12 +235,12 @@ def test_save_added_books_after_relogin(create_and_delete_user):
 
     login_page.submit_log_out()
 
-    login_page.fill_user_name(user1)
+    login_page.fill_user_name(registered_user)
 
-    login_page.fill_password(user1)
+    login_page.fill_password(registered_user)
 
     login_page.submit_login()
 
-    profile_page.search_book(book1)
+    profile_page.search_book(book_for_add)
 
-    profile_page.check_book_in_profile(book1)
+    profile_page.check_book_in_profile(book_for_add)

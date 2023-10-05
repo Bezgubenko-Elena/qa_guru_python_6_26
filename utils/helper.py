@@ -7,9 +7,7 @@ from requests import sessions
 from curlify import to_curl
 from allure_commons.types import AttachmentType
 
-from data.users import User
-
-path_schema = os.path.abspath(os.path.join(os.path.dirname(__file__), 'resources'))
+from utils.class_instances import registered_user
 
 base_url = "https://demoqa.com"
 
@@ -51,15 +49,11 @@ def account_api(method, url, **kwargs):
 
     return response
 
-def login_api_new():
-    user1 = User(
-        user_name='ivan',
-        password='Qq!12345'
-    )
 
+def login_api_new():
     payload = {
-        "userName": user1.user_name,
-        "password": user1.password
+        "userName": registered_user.user_name,
+        "password": registered_user.password
     }
     data_for_return = {}
     response_token = requests.post(url=f'{base_url_account_api}GenerateToken', data=payload)
@@ -74,14 +68,9 @@ def login_api_new():
 
 
 def create_user():
-    user1 = User(
-        user_name='ivan',
-        password='Qq!12345'
-    )
-
     payload = {
-        "userName": user1.user_name,
-        "password": user1.password
+        "userName": registered_user.user_name,
+        "password": registered_user.password
     }
     response = requests.post(url=f'{base_url_account_api}User', data=payload)
 
@@ -123,5 +112,14 @@ def delete_all_books_api():
                }
     requests.delete(url=url_with_params, headers=headers)
 
+def login_with_token():
+    data_userId_and_token = login_api_new()
+    headers = {'Content-Type': 'application/json',
+               'Authorization': f'Bearer {data_userId_and_token.get("generate_token")}'
+               }
+    response = requests.get(url=f"{base_url_account_api}User/{data_userId_and_token.get('userId')}", headers=headers)
 
+    return response.cookies
 
+def test_f():
+    print(login_api_new())
