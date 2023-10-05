@@ -112,14 +112,16 @@ def delete_all_books_api():
                }
     requests.delete(url=url_with_params, headers=headers)
 
-def login_with_token():
+
+def get_count_books_from_user():
     data_userId_and_token = login_api_new()
     headers = {'Content-Type': 'application/json',
                'Authorization': f'Bearer {data_userId_and_token.get("generate_token")}'
                }
     response = requests.get(url=f"{base_url_account_api}User/{data_userId_and_token.get('userId')}", headers=headers)
 
-    return response.cookies
+    return len(response.json().get('books'))
+
 
 def test_f():
-    print(login_api_new())
+    print(get_count_books_from_user())

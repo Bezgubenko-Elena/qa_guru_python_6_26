@@ -4,7 +4,7 @@ from models.page import LoginPage, ProfilePage, BookStorePage, BookPage
 import allure
 from allure_commons.types import Severity
 
-from utils.class_instances import registered_user, not_registered_user, registered_user_with_invalid_password, book_for_add
+from utils.class_instances import registered_user, not_registered_user, registered_user_with_invalid_password, book_from_list_1
 from utils.helper import add_some_book_api, login_with_token, login_api_new
 
 
@@ -122,9 +122,9 @@ def test_add_book(create_and_delete_user):
 
     profile_page.go_to_book_store()
 
-    book_store_page.search_book(book_for_add)
+    book_store_page.search_book(book_from_list_1)
 
-    book_store_page.go_to_book_page(book_for_add)
+    book_store_page.go_to_book_page(book_from_list_1)
 
     book_page.add_book()
 
@@ -132,9 +132,9 @@ def test_add_book(create_and_delete_user):
 
     login_page.go_to_profile()
 
-    profile_page.search_book(book_for_add)
+    profile_page.search_book(book_from_list_1)
 
-    profile_page.check_book_in_profile(book_for_add)
+    profile_page.check_book_in_profile(book_from_list_1)
 
 
 @allure.tag("web")
@@ -161,9 +161,9 @@ def test_delete_book(create_and_delete_user):
 
     profile_page.go_to_book_store()
 
-    book_store_page.search_book(book_for_add)
+    book_store_page.search_book(book_from_list_1)
 
-    book_store_page.go_to_book_page(book_for_add)
+    book_store_page.go_to_book_page(book_from_list_1)
 
     book_page.add_book()
 
@@ -171,9 +171,9 @@ def test_delete_book(create_and_delete_user):
 
     login_page.go_to_profile()
 
-    profile_page.search_book(book_for_add)
+    profile_page.search_book(book_from_list_1)
 
-    profile_page.delete_book(book_for_add)
+    profile_page.delete_book(book_from_list_1)
 
     profile_page.check_not_books_in_profile()
 
@@ -225,9 +225,9 @@ def test_save_added_books_after_relogin(create_and_delete_user):
 
     profile_page.go_to_book_store()
 
-    book_store_page.search_book(book_for_add)
+    book_store_page.search_book(book_from_list_1)
 
-    book_store_page.go_to_book_page(book_for_add)
+    book_store_page.go_to_book_page(book_from_list_1)
 
     book_page.add_book()
 
@@ -241,6 +241,6 @@ def test_save_added_books_after_relogin(create_and_delete_user):
 
     login_page.submit_login()
 
-    profile_page.search_book(book_for_add)
+    profile_page.search_book(book_from_list_1)
 
-    profile_page.check_book_in_profile(book_for_add)
+    profile_page.check_book_in_profile(book_from_list_1)

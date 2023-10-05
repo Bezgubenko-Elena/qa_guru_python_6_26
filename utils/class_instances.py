@@ -13,22 +13,17 @@ not_registered_user = User(
     password='Ww!12345'
 )
 
-book_for_add = Book(
+book_from_list_1 = Book(
     title='Git Pocket Guide',
     ISBN='9781449325862'
 )
 
-book1 = Book(
-    title='Git Pocket Guide',
-    ISBN='9781449325862'
-)
-
-book2 = Book(
+book_from_list_2 = Book(
     title="You Don't Know JS",
     ISBN='9781491904244'
 )
 
-book3 = Book(
+book_not_in_list = Book(
     title='Book is not in Book Store',
     ISBN='0000000000000'
 )
