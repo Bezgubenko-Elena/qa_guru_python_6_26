@@ -65,6 +65,7 @@ def login_api_new():
     return data_for_return
 
 
+@allure.step("Создаем пользователя перед тестом через api")
 def create_user():
     payload = {
         "userName": registered_user.user_name,
@@ -73,6 +74,7 @@ def create_user():
     requests.post(url=f'{base_url_account_api}User', data=payload)
 
 
+@allure.step("Удаляем пользователя после теста через api")
 def delete_user():
     user_id_and_generate_token = login_api_new()
     url_with_id = f"{base_url_account_api}User/{user_id_and_generate_token.get('user_id')}"
@@ -82,6 +84,7 @@ def delete_user():
     requests.delete(url=url_with_id, headers=headers)
 
 
+@allure.step("Добавляем несколько книг в корзину через api")
 def add_some_book_api(quantity):
     user_id_and_generate_token = login_api_new()
     isbn_dict = {0: "9781449325862", 1: "9781449331818", 2: "9781449337711", 3: "9781449365035", 4: "9781491904244",
@@ -104,6 +107,7 @@ def add_some_book_api(quantity):
     return user_id_and_generate_token
 
 
+@allure.step("Удаляем все книги из корзины через api")
 def delete_all_books_api():
     user_id_and_generate_token = login_api_new()
     url_with_params = f"{base_url_book_store}Books?UserId={user_id_and_generate_token.get('user_id')}"
@@ -118,6 +122,7 @@ def get_count_books_from_user():
     headers = {'Content-Type': 'application/json',
                'Authorization': f'Bearer {user_id_and_generate_token.get("generate_token")}'
                }
-    response = requests.get(url=f"{base_url_account_api}User/{user_id_and_generate_token.get('user_id')}", headers=headers)
+    response = requests.get(url=f"{base_url_account_api}User/{user_id_and_generate_token.get('user_id')}",
+                            headers=headers)
 
     return len(response.json().get('books'))
