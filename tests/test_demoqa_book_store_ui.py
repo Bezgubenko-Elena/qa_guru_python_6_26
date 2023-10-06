@@ -6,7 +6,7 @@ from utils.class_instances import registered_user, not_registered_user, register
     book_from_list_1
 from utils.helper import add_some_book_api
 
-
+# не перешли на страницу логина еще раз посмотреть селекторы
 @allure.tag("web")
 @allure.severity(Severity.BLOCKER)
 @allure.label("owner", "ebezgubenko")

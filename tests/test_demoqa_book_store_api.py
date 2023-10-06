@@ -54,7 +54,7 @@ def test_get_single_book_not_found():
 @allure.link("https://demoqa.com/profile", name="Profile")
 def test_add_books(create_and_delete_user):
     payload = json.dumps({
-        "userId": login_api_new().get('userId'),
+        "userId": login_api_new().get('user_id'),
         "collectionOfIsbns": [
             {"isbn": book_from_list_1.ISBN},
             {"isbn": book_from_list_2.ISBN
@@ -79,7 +79,7 @@ def test_replace_single_book(create_and_delete_user):
     quantity_books = 5
     add_some_book_api(quantity_books)
     payload = json.dumps({
-        "userId": login_api_new().get('userId'),
+        "userId": login_api_new().get('user_id'),
         "isbn": book_from_list_2.ISBN
     }
     )
@@ -108,7 +108,7 @@ def test_delete_single_book(create_and_delete_user):
     add_some_book_api(quantity_books)
     payload = json.dumps({
         "isbn": "9781449325862",
-        "userId": login_api_new().get('userId')
+        "userId": login_api_new().get('user_id')
     }
     )
     headers = {'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ def test_delete_single_book(create_and_delete_user):
 @allure.link("https://demoqa.com/profile", name="Profile")
 def test_delete_all_books(create_and_delete_user):
     add_some_book_api(5)
-    url_with_params = f"Books?UserId={login_api_new().get('userId')}"
+    url_with_params = f"Books?UserId={login_api_new().get('user_id')}"
     headers = {'Content-Type': 'application/json',
                'Authorization': f"Bearer {login_api_new().get('generate_token')}"
                }
