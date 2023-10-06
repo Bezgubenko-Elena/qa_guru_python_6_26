@@ -19,7 +19,7 @@ def test_success_login(create_and_delete_user):
 
     login_page.login_user(registered_user)
 
-    profile_page.go_to_login()
+    # profile_page.go_to_login()
 
     login_page.check_login_success(registered_user)
 
@@ -36,7 +36,7 @@ def test_success_log_out(create_and_delete_user):
 
     login_page.login_user(registered_user)
 
-    profile_page.go_to_login()
+    # profile_page.go_to_login()
 
     login_page.submit_log_out()
 

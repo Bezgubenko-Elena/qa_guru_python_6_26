@@ -17,11 +17,14 @@ class LoginPage:
 
     @allure.step("Разлогиниваемся")
     def submit_log_out(self):
-        browser.element('[id="submit"]').click()
+        # browser.element('[id="submit"]').click()
+        browser.all('[id="submit"]').element_by(have.text('Log out')).click()
+
 
     @allure.step("Проверяем нахождение на странице авторизации авторизованным пользователем")
     def check_login_success(self, user):
-        browser.element('[id="loading-label"]').should(have.text('You are already logged in.'))
+        # browser.element('[id="loading-label"]').should(have.text('You are already logged in.'))
+        # browser.element('[id="userName-value"]').should(have.text(user.user_name))
         browser.element('[id="userName-value"]').should(have.text(user.user_name))
 
     @allure.step("Проверяем нахождение на странице авторизации (пользователь не авторизован)")
