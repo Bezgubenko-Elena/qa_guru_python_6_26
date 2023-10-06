@@ -106,13 +106,14 @@ def test_replace_single_book(create_and_delete_user):
 def test_delete_single_book(create_and_delete_user):
     quantity_books = 4
     add_some_book_api(quantity_books)
+    user_id_and_generate_token = login_api_new()
     payload = json.dumps({
         "isbn": "9781449325862",
-        "userId": login_api_new().get('user_id')
+        "userId": user_id_and_generate_token.get('user_id')
     }
     )
     headers = {'Content-Type': 'application/json',
-               'Authorization': f"Bearer {login_api_new().get('generate_token')}"
+               'Authorization': f"Bearer {user_id_and_generate_token.get('generate_token')}"
                }
     response = helper.book_api('delete', 'Book', data=payload, headers=headers)
     assert response.status_code == 204
@@ -126,9 +127,10 @@ def test_delete_single_book(create_and_delete_user):
 @allure.link("https://demoqa.com/profile", name="Profile")
 def test_delete_all_books(create_and_delete_user):
     add_some_book_api(5)
-    url_with_params = f"Books?UserId={login_api_new().get('user_id')}"
+    user_id_and_generate_token = login_api_new()
+    url_with_params = f"Books?UserId={user_id_and_generate_token.get('user_id')}"
     headers = {'Content-Type': 'application/json',
-               'Authorization': f"Bearer {login_api_new().get('generate_token')}"
+               'Authorization': f"Bearer {user_id_and_generate_token.get('generate_token')}"
                }
     response = helper.book_api('delete', url_with_params, headers=headers)
     assert response.status_code == 204
