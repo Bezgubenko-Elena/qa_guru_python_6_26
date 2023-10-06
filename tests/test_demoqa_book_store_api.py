@@ -1,3 +1,5 @@
+import allure
+from allure_commons.types import Severity
 from jsonschema.validators import validate
 import json
 import os
@@ -7,7 +9,12 @@ from tests.conftest import path_schema
 from utils import helper
 from utils.helper import login_api_new, add_some_book_api, get_count_books_from_user
 
-
+@allure.tag("web")
+@allure.severity(Severity.BLOCKER)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Взаимодействие с корзиной пользователя")
+@allure.story("test_api")
+@allure.link("https://demoqa.com/profile", name="Profile")
 def test_get_list_of_books():
     with open(os.path.join(path_schema, "schema_get_list_books.json")) as file:
         schema = json.loads(file.read())
@@ -15,7 +22,12 @@ def test_get_list_of_books():
         assert response.status_code == 200
         validate(instance=response.json(), schema=schema)
 
-
+@allure.tag("web")
+@allure.severity(Severity.NORMAL)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Взаимодействие с корзиной пользователя")
+@allure.story("test_api")
+@allure.link("https://demoqa.com/profile", name="Profile")
 def test_get_single_book():
     with open(os.path.join(path_schema, "schema_get_single_book.json")) as file:
         schema = json.loads(file.read())
@@ -23,13 +35,23 @@ def test_get_single_book():
         assert response.status_code == 200
         validate(instance=response.json(), schema=schema)
 
-
+@allure.tag("web")
+@allure.severity(Severity.NORMAL)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Взаимодействие с корзиной пользователя")
+@allure.story("test_api")
+@allure.link("https://demoqa.com/profile", name="Profile")
 def test_get_single_book_not_found():
     response = helper.book_api('get', 'Book', params={"ISBN": book_not_in_list.ISBN})
 
     assert response.status_code == 400
 
-
+@allure.tag("web")
+@allure.severity(Severity.BLOCKER)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Взаимодействие с корзиной пользователя")
+@allure.story("test_api")
+@allure.link("https://demoqa.com/profile", name="Profile")
 def test_add_books(create_and_delete_user):
     payload = json.dumps({
         "userId": login_api_new().get('userId'),
@@ -47,7 +69,12 @@ def test_add_books(create_and_delete_user):
 
     assert response.status_code == 201
 
-
+@allure.tag("web")
+@allure.severity(Severity.CRITICAL)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Взаимодействие с корзиной пользователя")
+@allure.story("test_api")
+@allure.link("https://demoqa.com/profile", name="Profile")
 def test_replace_single_book(create_and_delete_user):
     quantity_books = 5
     add_some_book_api(quantity_books)
@@ -70,7 +97,12 @@ def test_replace_single_book(create_and_delete_user):
     assert book_from_list_2.ISBN in list_isbn
     assert not book_from_list_1.ISBN in list_isbn
 
-
+@allure.tag("web")
+@allure.severity(Severity.BLOCKER)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Взаимодействие с корзиной пользователя")
+@allure.story("test_api")
+@allure.link("https://demoqa.com/profile", name="Profile")
 def test_delete_single_book(create_and_delete_user):
     quantity_books = 4
     add_some_book_api(quantity_books)
@@ -86,7 +118,12 @@ def test_delete_single_book(create_and_delete_user):
     assert response.status_code == 204
     assert get_count_books_from_user() == quantity_books - 1
 
-
+@allure.tag("web")
+@allure.severity(Severity.CRITICAL)
+@allure.label("owner", "ebezgubenko")
+@allure.feature("Взаимодействие с корзиной пользователя")
+@allure.story("test_api")
+@allure.link("https://demoqa.com/profile", name="Profile")
 def test_delete_all_books(create_and_delete_user):
     add_some_book_api(5)
     url_with_params = f"Books?UserId={login_api_new().get('userId')}"
