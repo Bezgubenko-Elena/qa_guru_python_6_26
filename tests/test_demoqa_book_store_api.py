@@ -78,13 +78,14 @@ def test_add_books(create_and_delete_user):
 def test_replace_single_book(create_and_delete_user):
     quantity_books = 5
     add_some_book_api(quantity_books)
+    user_id_and_generate_token = login_api_new()
     payload = json.dumps({
-        "userId": login_api_new().get('user_id'),
+        "userId": user_id_and_generate_token.get('user_id'),
         "isbn": book_from_list_2.ISBN
     }
     )
     headers = {'Content-Type': 'application/json',
-               'Authorization': f"Bearer {login_api_new().get('generate_token')}"
+               'Authorization': f"Bearer {user_id_and_generate_token.get('generate_token')}"
                }
     url_with_params = f"Books/{book_from_list_1.ISBN}"
     response = helper.book_api(method='put', url=url_with_params, data=payload, headers=headers)
