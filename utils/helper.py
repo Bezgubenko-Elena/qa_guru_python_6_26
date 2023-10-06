@@ -101,6 +101,8 @@ def add_some_book_api(quantity):
                }
     requests.post(url=f'{base_url_book_store}Books', data=payload, headers=headers)
 
+    return user_id_and_generate_token
+
 
 def delete_all_books_api():
     user_id_and_generate_token = login_api_new()
@@ -119,3 +121,6 @@ def get_count_books_from_user():
     response = requests.get(url=f"{base_url_account_api}User/{user_id_and_generate_token.get('user_id')}", headers=headers)
 
     return len(response.json().get('books'))
+
+
+# попробовать сделать авторизацию в одном хелпере, а потом из него вернуть переменную с данными авторизации

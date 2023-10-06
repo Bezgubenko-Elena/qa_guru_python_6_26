@@ -6,7 +6,7 @@ from utils.class_instances import registered_user, not_registered_user, register
     book_from_list_1
 from utils.helper import add_some_book_api
 
-# не перешли на страницу логина еще раз посмотреть селекторы
+
 @allure.tag("web")
 @allure.severity(Severity.BLOCKER)
 @allure.label("owner", "ebezgubenko")
@@ -15,11 +15,8 @@ from utils.helper import add_some_book_api
 @allure.link("https://demoqa.com/login", name="Page for login")
 def test_success_login(create_and_delete_user):
     login_page = LoginPage()
-    profile_page = ProfilePage()
 
     login_page.login_user(registered_user)
-
-    # profile_page.go_to_login()
 
     login_page.check_login_success(registered_user)
 
@@ -32,11 +29,8 @@ def test_success_login(create_and_delete_user):
 @allure.link("https://demoqa.com/login", name="Page for login")
 def test_success_log_out(create_and_delete_user):
     login_page = LoginPage()
-    profile_page = ProfilePage()
 
     login_page.login_user(registered_user)
-
-    # profile_page.go_to_login()
 
     login_page.submit_log_out()
 
