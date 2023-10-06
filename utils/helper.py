@@ -84,11 +84,11 @@ def delete_user():
 
 def add_some_book_api(quantity):
     user_id_and_generate_token = login_api_new()
-    isbn_array = ["9781449325862", "9781449331818", "9781449337711", "9781449365035", "9781491904244", "9781491950296",
-                  "9781593275846", "9781593277574"]
+    isbn_dict = {0: "9781449325862", 1: "9781449331818", 2: "9781449337711", 3: "9781449365035", 4: "9781491904244",
+                 5: "9781491950296", 6: "9781593275846", 7: "9781593277574"}
     new_collection_of_isbn = []
     for i in range(quantity):
-        d = dict.fromkeys(['isbn'], isbn_array[i])
+        d = dict.fromkeys(['isbn'], isbn_dict[i])
         new_collection_of_isbn.append(d)
 
     payload = json.dumps({
@@ -121,6 +121,3 @@ def get_count_books_from_user():
     response = requests.get(url=f"{base_url_account_api}User/{user_id_and_generate_token.get('user_id')}", headers=headers)
 
     return len(response.json().get('books'))
-
-
-# попробовать сделать авторизацию в одном хелпере, а потом из него вернуть переменную с данными авторизации

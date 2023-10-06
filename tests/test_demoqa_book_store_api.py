@@ -77,7 +77,7 @@ def test_add_books(create_and_delete_user):
 @allure.story("test_api")
 @allure.link("https://demoqa.com/profile", name="Profile")
 def test_replace_single_book(create_and_delete_user):
-    quantity_books = 5
+    quantity_books = 4
     user_id_and_generate_token = add_some_book_api(quantity_books)
     payload = json.dumps({
         "userId": user_id_and_generate_token.get('user_id'),
