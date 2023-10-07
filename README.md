@@ -1,14 +1,14 @@
 # Проект автотестов для учебного сайта [demoqa.com (Book Store Application)](https://demoqa.com/books)
 
 ## Описание проекта
-* В проекте представлены UI и API автотесты на Python с использованием Selene для UI-тестов 
-и Requests, Curlify и Jsonschema для API-тестов.
-* При создании тестов применен паттерн PageObject.
+* В проекте представлены `UI` и `API` автотесты на `Python` с использованием `Selene` для UI-тестов 
+и `Requests`, `Curlify` и `Jsonschema` для API-тестов.
+* При создании тестов применен паттерн `PageObject`.
 * Тесты атомарные - перед запуском каждого теста создается пользователь,
 после прохождения теста пользователь удаляется.
-* Тесты запускаются удаленно на Selenoid.
-* Подключена интеграция с Allure Reports.
-* Уведомления о завершении тестов направляются в Telegram.
+* Тесты запускаются удаленно на `Selenoid`.
+* Подключена интеграция с `Allure Reports`.
+* Уведомления о завершении тестов направляются в `Telegram`.
 
 ## Тестовые сценарии
 
@@ -35,7 +35,7 @@
  - [x] Уделание всех книг из корзины
 
 ## Используемые технологии
-
+<p>
 <img title="Python" src="./resource_for_profile/logo/python.png" width="40" height="40" />
 <img title="PyCharm" src="./resource_for_profile/logo/pycharm.png" width="40" height="40" />
 <img title="PyTest" src="./resource_for_profile/logo/pytest.png" width="40" height="40" />
@@ -44,6 +44,7 @@
 <img title="Jenkins" src="./resource_for_profile/logo/jenkins.png" width="40" height="40" />
 <img title="Allure Report" src="./resource_for_profile/logo/allure_report.png" width="40" height="40" />
 <img title="Telegram" src="./resource_for_profile/logo/telegram.png" width="40" height="40" />
+</p>
 
 ## Локальный запуск
 - Склонировать репозиторий
@@ -58,10 +59,10 @@ pytest .
 
 ## Запуск автотестов из Jenkins
 #### Создать сборку в Jenkins и нажать кнопку `Собрать`.
-<img src="./resource_for_profile/screens/jenkins_job.png" width="600" height="300" />
+<img src="./resource_for_profile/screens/Jenkins_job.png" width="600" height="300" />
 
 #### Пример завершенной сборки можно посмотреть по [ссылке](https://jenkins.autotests.cloud/job/006-bezgubenko_helen-python-unit-26/)
-<img src="./resource_for_profile/screens/jenkins_job_done.png" width="600" height="300" />
+<img src="./resource_for_profile/screens/Jenkins_job_done.png" width="600" height="300" />
 
 ## Отчеты о прохождении тестов в Allure
 ### Информация о прохождении тестов доступна в Allure:
