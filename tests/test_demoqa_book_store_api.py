@@ -9,6 +9,7 @@ from tests.conftest import path_schema
 from utils import helper
 from utils.helper import login_api_new, add_some_book_api, get_count_books_from_user
 
+
 @allure.tag("web")
 @allure.severity(Severity.BLOCKER)
 @allure.label("owner", "ebezgubenko")
@@ -21,6 +22,7 @@ def test_get_list_of_books():
         response = helper.book_api('get', 'Books')
         assert response.status_code == 200
         validate(instance=response.json(), schema=schema)
+
 
 @allure.tag("web")
 @allure.severity(Severity.NORMAL)
@@ -35,6 +37,7 @@ def test_get_single_book():
         assert response.status_code == 200
         validate(instance=response.json(), schema=schema)
 
+
 @allure.tag("web")
 @allure.severity(Severity.NORMAL)
 @allure.label("owner", "ebezgubenko")
@@ -45,6 +48,7 @@ def test_get_single_book_not_found():
     response = helper.book_api('get', 'Book', params={"ISBN": book_not_in_list.ISBN})
 
     assert response.status_code == 400
+
 
 @allure.tag("web")
 @allure.severity(Severity.BLOCKER)
@@ -69,6 +73,7 @@ def test_add_books(create_and_delete_user):
     response = helper.book_api(method='post', url='Books', data=payload, headers=headers)
 
     assert response.status_code == 201
+
 
 @allure.tag("web")
 @allure.severity(Severity.CRITICAL)
@@ -98,6 +103,7 @@ def test_replace_single_book(create_and_delete_user):
     assert book_from_list_2.ISBN in list_isbn
     assert not book_from_list_1.ISBN in list_isbn
 
+
 @allure.tag("web")
 @allure.severity(Severity.BLOCKER)
 @allure.label("owner", "ebezgubenko")
@@ -118,6 +124,7 @@ def test_delete_single_book(create_and_delete_user):
     response = helper.book_api('delete', 'Book', data=payload, headers=headers)
     assert response.status_code == 204
     assert get_count_books_from_user() == quantity_books - 1
+
 
 @allure.tag("web")
 @allure.severity(Severity.CRITICAL)

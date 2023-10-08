@@ -24,7 +24,7 @@ def load_env():
     load_dotenv()
 
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture()
 def setup_browser(request):
     browser.config.window_width = 1920
     browser.config.window_height = 1080
@@ -66,5 +66,7 @@ def setup_browser(request):
 @pytest.fixture()
 def create_and_delete_user():
     create_user()
+
     yield
+
     delete_user()
